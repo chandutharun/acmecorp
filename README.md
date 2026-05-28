@@ -160,37 +160,6 @@ flowchart TD
     style MCP fill:#0f3460,stroke:#00cc66,stroke-width:2px,color:#ffffff
 ```
 
-## 🔄 Request Flow
-
-```mermaid
-sequenceDiagram
-    participant U as User
-    participant F as Frontend<br/>index.html
-    participant B as Backend<br/>FastAPI
-    participant O as Orchestrator<br/>IntegratedOrchestrator
-    participant L as LLM<br/>dolphin-llama3
-    participant M as MCP Servers<br/>Ports 9001-9010
-    
-    U->>F: Types message in browser
-    F->>B: POST /api/chat
-    B->>O: Call .chat()
-    O->>M: Discover tools/resources
-    O->>L: Generate response + tool calls
-    L-->>O: Returns response
-    O->>M: Auto-execute tool calls
-    O->>M: Read resources
-    O-->>B: Final answer
-    B-->>F: Return response
-    F-->>U: Display answer
-    
-    style U fill:#0f3460,stroke:#533483,stroke-width:2px,color:#ffffff
-    style F fill:#0f3460,stroke:#533483,stroke-width:2px,color:#ffffff
-    style B fill:#16213e,stroke:#e94560,stroke-width:2px,color:#ffffff
-    style O fill:#16213e,stroke:#e94560,stroke-width:2px,color:#ffffff
-    style L fill:#1a1a2e,stroke:#9933ff,stroke-width:2px,color:#ffffff
-    style M fill:#0f3460,stroke:#00cc66,stroke-width:2px,color:#ffffff
-```
-
 ## 📝 Flow Steps
 
 1. **User types message** in browser → Frontend (`index.html`)
