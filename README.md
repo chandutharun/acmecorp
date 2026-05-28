@@ -48,7 +48,7 @@ AcmeCorp Internal Assistant is a corporate-style chat application designed for c
 - **MCP Challenge Servers**: 10 SSE endpoints on ports **9001–9010** — **external dependency** ([harishsg993010/damn-vulnerable-MCP-server](https://github.com/harishsg993010/damn-vulnerable-MCP-server))
 
 
-### 🔄 Your Code vs. External Dependencies
+### 🔄  vs. External Dependencies
 
 | Component | Who Built It | Repository |
 |-----------|--------------|------------|
@@ -80,8 +80,8 @@ AcmeCorp Internal Assistant is a corporate-style chat application designed for c
 
 ```text
 AcmeCorp/
-├── index.html              # Frontend chat UI — YOUR CODE
-├── Dockerfile              # Frontend container (nginx/static files) — YOUR CODE
+├── index.html              # Frontend chat UI 
+├── Dockerfile              # Frontend container (nginx/static files) 
 ├── README.md               # This file
 ├── requirements.txt        # Python dependencies (frontend doesn't use)
 ├── images/                 # Screenshots
@@ -91,10 +91,9 @@ AcmeCorp/
 │   ├── attack3.png
 │   ├── attack4.png
 │   ├── attack5.png
-│   └── list of tools in mcp server.png
-└── Backend (your code)
-    ├── main.py             # FastAPI app — YOUR CODE
-    ├── logic.py            # IntegratedOrchestrator + MCP client — YOUR CODE
+│   └── list of tools in mcp server.png 
+├── main.py            # FastAPI app 
+├── logic.py #Backend  # IntegratedOrchestrator + MCP client 
 
 External Dependency:
 └── Damn Vulnerable MCP Server (DVMCP)
@@ -108,17 +107,17 @@ External Dependency:
 
 ```mermaid
 flowchart TD
-    subgraph AcmeCorp["🏢 AcmeCorp Internal Assistant (Your Code)"]
+    subgraph AcmeCorp["🏢 AcmeCorp Internal Assistant ()"]
         direction TB
         
-        subgraph Frontend["🖥️ Frontend (HTML + UI) - YOUR CODE"]
+        subgraph Frontend["🖥️ Frontend (HTML + UI) - "]
             A["User Interface<br/>index.html"]
         end
         
-        subgraph Backend["⚙️ Backend (FastAPI) - YOUR CODE"]
+        subgraph Backend["⚙️ Backend (FastAPI) - "]
             B["FastAPI Server<br/>API_BASE"]
-            C["IntegratedOrchestrator<br/>.chat() - YOUR CODE"]
-            D["MCP Client<br/>SSE-based - YOUR CODE"]
+            C["IntegratedOrchestrator<br/>.chat() - "]
+            D["MCP Client<br/>SSE-based - "]
         end
         
         subgraph LLM["🤖 Ollama LLM"]
@@ -145,13 +144,13 @@ flowchart TD
 
 ## 📝 Flow Steps
 
-1. **User types message** in browser → Frontend (`index.html`) — **your code**
-2. **Frontend sends** `POST /api/chat` to Backend (`API_BASE`) — **your code**
-3. **Backend calls** `IntegratedOrchestrator.chat()` — **your code**
-4. **Your MCP client discovers** MCP tools/resources from DVMCP (ports 9001–9010) — **your code**
+1. **User types message** in browser → Frontend (`index.html`) — ****
+2. **Frontend sends** `POST /api/chat` to Backend (`API_BASE`) — ****
+3. **Backend calls** `IntegratedOrchestrator.chat()` — ****
+4. **Your MCP client discovers** MCP tools/resources from DVMCP (ports 9001–9010) — ****
 5. **LLM (`dolphin-llama3`)** generates response + tool calls
-6. **Backend auto-executes** tool calls, reads resources — **your code**
-7. **Final answer** returned to frontend — **your code**
+6. **Backend auto-executes** tool calls, reads resources — ****
+7. **Final answer** returned to frontend — ****
 
 ---
 
@@ -169,7 +168,7 @@ flowchart TD
 
 ### Ollama Settings
 
-In `logic.py` (backend) — **your code**:
+In `logic.py` (backend) — ****:
 
 ```python
 # Ollama host
@@ -183,7 +182,7 @@ If Ollama is on a different machine, update `OLLAMA_URL` accordingly.
 
 ### MCP Challenge Servers (DVMCP)
 
-In `logic.py` (backend) — **your code**:
+In `logic.py` (backend) — ****:
 
 ```python
 CHALLENGE_PORTS = range(9001, 9011)  # 9001–9010
@@ -193,7 +192,7 @@ CHALLENGE_PORTS = range(9001, 9011)  # 9001–9010
 
 ### Frontend API Base
 
-In `index.html` — **your code**:
+In `index.html` — ****:
 
 ```javascript
 const API_BASE = "http://192.2.0.1:8000/api";
@@ -240,7 +239,7 @@ docker run -d \
 
 ### Step 5: Build & Run Your AcmeCorp Backend
 
-In your AcmeCorp backend directory (**your code**):
+In your AcmeCorp backend directory (****):
 
 ```bash
 docker build -t acmecorp-backend .
@@ -253,7 +252,7 @@ docker run -d \
 
 ### Step 6: Build & Run Your Frontend
 
-In your AcmeCorp frontend directory (**your code**):
+In your AcmeCorp frontend directory (****):
 
 ```bash
 docker build -t acmecorp-frontend .
