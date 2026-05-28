@@ -1,11 +1,8 @@
 # 🏢 AcmeCorp Internal Assistant
 
-
 **A deliberately vulnerable internal chatbot lab** built with FastAPI, Ollama, and MCP-style backend orchestration for **prompt-injection and agent-security testing**.
 
-
 ## ⚠️ Critical Disclaimer
-
 
 > **🛑 THIS PROJECT IS INTENTIONALLY VULNERABLE.**  
 > It is designed **EXCLUSIVELY** for:  
@@ -15,181 +12,164 @@
 >  
 > **DO NOT** deploy this in production.  
 > **DO NOT** connect to real internal services, APIs, or sensitive data.  
-> **DO NOT** use against systems you don’t own or have explicit permission to test.  
+> **DO NOT** use against systems you don't own or have explicit permission to test.  
 >  
 > This is a **lab environment** — treat it like a hacking sandbox, not a real chatbot.
 
-
 ---
-
 
 ## 🎯 Purpose: Why This Exists
 
-
 AcmeCorp Internal Assistant is a **deliberately insecure chatbot** created for the same reason as:
-
 
 | Project | Purpose | AcmeCorp Equivalent |
 |---------|---------|---------------------|
 | `DVWA` (Damn Vulnerable Web App) | Web security training | ✅ Vulnerable web chat UI |
 | `Metasploitable` | Network pentesting lab | ✅ Vulnerable LLM agent |
 | `OWASP Juice Shop` | Web app security CTF | ✅ Prompt injection CTF |
-| `ReversecLabs DVLA` | LLM agent security | ✅ MCP-based agent lab |
-
+| `Damn Vulnerable MCP Server (DVMCP)` | MCP security research | ✅ MCP-based agent lab |
 
 ### What You Can Learn:
 
-
 - 🔍 How **prompt injection** breaks LLM agent trust boundaries
 - 🎯 How attackers **force tool calls** without user consent
-- 🧠 How **recursive auto-correction** amplifies vulnerabilities
+- 🧠 How **MCP tool definitions** can be poisoned or shadowed
 - 🌐 How **MCP servers** can be exploited via LLM output
 - 🛡️ How to **defend** real LLM agents against these attacks
 
-
 ---
-
 
 ## 🏗️ Overview
 
-
 AcmeCorp Internal Assistant is a corporate-style chat application designed for controlled security testing. It consists of:
 
-
-- **Frontend**: Custom HTML/Tailwind CSS UI (this repository)
-- **Backend**: FastAPI + Ollama + MCP orchestration (modified from ReversecLabs DVLA)
-- **MCP Challenge Servers**: 10 SSE endpoints on ports 9001–9010 (intentionally vulnerable)
-
-
-The backend concept is inspired by the open-source [ReversecLabs Damn Vulnerable LLM Agent](https://github.com/ReversecLabs/damn-vulnerable-llm-agent), an intentionally vulnerable ReAct-style chatbot built for prompt-injection and LLM agent security research.
+- **Frontend**: Custom HTML/Tailwind CSS UI — **built by you** (this repository)
+- **Backend Orchestrator + MCP Client**: FastAPI + Ollama + custom MCP client — **built by you** (`main.py`, `logic.py`)
+- **MCP Challenge Servers**: 10 SSE endpoints on ports **9001–9010** — **external dependency** ([harishsg993010/damn-vulnerable-MCP-server](https://github.com/harishsg993010/damn-vulnerable-MCP-server))
 
 
-### 🔄 What's Different from ReversecLabs DVLA?
+### 🔄 Your Code vs. External Dependencies
 
-
-| Feature | ReversecLabs DVLA | AcmeCorp Internal Assistant |
-|---------|-------------------|-----------------------------|
-| **Backend Framework** | Langchain + Streamlit | **FastAPI** + custom orchestrator |
-| **LLM Backend** | OpenAI GPT-4 / LiteLLM | **Ollama** (`dolphin-llama3`, local) |
-| **Agent Architecture** | ReAct agent (Langchain) | **Custom MCP client** (SSE-based) |
-| **Tool Discovery** | Langchain `tools.py` | **MCP servers** on ports 9001–9010 |
-| **Frontend** | Streamlit (built-in) | **Custom HTML/Tailwind UI** |
-| **Auto-correction** | No | **Recursive retry** forces tool execution |
-| **Vulnerability Style** | ReAct thought injection | **MCP tool/URI injection** |
-
+| Component | Who Built It | Repository |
+|-----------|--------------|------------|
+| **Frontend (HTML/Tailwind UI)** | You (Tharun K) | This repo (`chandutharun/acmecorp`) |
+| **FastAPI Backend + Orchestrator** | You (Tharun K) | This repo (`main.py`, `logic.py`) |
+| **Custom MCP Client** | You (Tharun K) | This repo (`logic.py`) |
+| **MCP Challenge Servers (10 ports)** | Harish SG | [`harishsg993010/damn-vulnerable-MCP-server`](https://github.com/harishsg993010/damn-vulnerable-MCP-server) |
+| **LLM Backend** | Ollama community | [`ollama/ollama`](https://github.com/ollama/ollama) |
 
 ---
-
 
 ## 🎯 Features
 
-
 | Feature | Description |
 |---------|-------------|
-| 🏢 **Corporate-style Chat UI** | Modern HTML/Tailwind frontend (looks legitimate) |
-| ⚡ **FastAPI Backend** | `/api/chat` endpoint with CORS |
+| 🏢 **Corporate-style Chat UI** | Modern HTML/Tailwind frontend (built by you) |
+| ⚡ **FastAPI Backend** | `/api/chat` endpoint with CORS (built by you) |
 | 🤖 **Ollama Orchestration** | Local `dolphin-llama3` model integration |
-| 🔍 **MCP Server Discovery** | 10 SSE endpoints (ports 9001–9010), parallel discovery |
+| 🔍 **DVMCP Integration** | 10 SSE endpoints (ports 9001–9010) from external DVMCP server |
 | 🐳 **Separate Docker Services** | Frontend + Backend containers |
 | 🛡️ **Weak Trust Boundaries** | Intentionally vulnerable for testing |
-| 🔁 **Recursive Auto-correction** | Forces LLM to output tool calls/exact syntax |
-| 🔬 **Based on ReversecLabs** | Extended DVLA with MCP-style orchestration |
-| 🎮 **CTF-Style Challenges** | 10 MCP ports with hidden flags/data to extract |
-
+| 🔁 **Recursive Auto-correction** | Forces LLM to output tool calls/exact syntax (your implementation) |
+| 🔬 **Custom MCP Client** | SSE-based MCP client (built by you) |
+| 🎮 **CTF-Style Challenges** | 10 MCP challenges from DVMCP with increasing difficulty |
 
 ---
 
-
 ## 🏗️ Project Structure
 
+```text
 AcmeCorp/
-├── index.html # Frontend chat UI (this repo)
-├── Dockerfile # Frontend container (nginx/static files)
-├── README.md # This file
-├── requirements.txt # Python dependencies (frontend doesn't use)
-├── images/ # Screenshots
-│ ├── home.png
-│ ├── attack1.png
-│ ├── attack2.png
-│ ├── attack3.png
-│ ├── attack4.png
-│ ├── attack5.png
-│ └── list of tools in mcp server.png
-│
-└── Backend (separate - see Setup)
-├── main.py # FastAPI app (from ReversecLabs + modified)
-├── logic.py # IntegratedOrchestrator + StealthMCPClient
-├── requirements.txt
-└── Dockerfile # Backend container
+├── index.html              # Frontend chat UI — YOUR CODE
+├── Dockerfile              # Frontend container (nginx/static files) — YOUR CODE
+├── README.md               # This file
+├── requirements.txt        # Python dependencies (frontend doesn't use)
+├── images/                 # Screenshots
+│   ├── home.png
+│   ├── attack1.png
+│   ├── attack2.png
+│   ├── attack3.png
+│   ├── attack4.png
+│   ├── attack5.png
+│   └── list of tools in mcp server.png
+└── Backend (your code)
+    ├── main.py             # FastAPI app — YOUR CODE
+    ├── logic.py            # IntegratedOrchestrator + MCP client — YOUR CODE
 
+External Dependency:
+└── Damn Vulnerable MCP Server (DVMCP)
+    └── https://github.com/harishsg993010/damn-vulnerable-MCP-server
+        (10 MCP challenge servers on ports 9001–9010)
+```
+
+---
 
 ## 🏗️ Architecture
 
 ```mermaid
 flowchart TD
-    subgraph AcmeCorp["🏢 AcmeCorp Internal Assistant"]
+    subgraph AcmeCorp["🏢 AcmeCorp Internal Assistant (Your Code)"]
         direction TB
         
-        subgraph Frontend["🖥️ Frontend (HTML + UI)"]
+        subgraph Frontend["🖥️ Frontend (HTML + UI) - YOUR CODE"]
             A["User Interface<br/>index.html"]
         end
         
-        subgraph Backend["⚙️ Backend (FastAPI)"]
+        subgraph Backend["⚙️ Backend (FastAPI) - YOUR CODE"]
             B["FastAPI Server<br/>API_BASE"]
-            C["IntegratedOrchestrator<br/>.chat()"]
+            C["IntegratedOrchestrator<br/>.chat() - YOUR CODE"]
+            D["MCP Client<br/>SSE-based - YOUR CODE"]
         end
         
         subgraph LLM["🤖 Ollama LLM"]
-            D["dolphin-llama3"]
+            E["dolphin-llama3"]
         end
-        
-        subgraph MCP["🔌 MCP Servers"]
-            E["Ports 9001-9010<br/>SSE Endpoints<br/>Tools & Resources"]
-        end
-        
-        Frontend -->|"POST /api/chat"| Backend
-        Backend --> LLM
-        LLM --> C
-        C --> E
     end
+    
+    subgraph DVMCP["🔌 Damn Vulnerable MCP Server (External)"]
+        F["Ports 9001-9010<br/>SSE Endpoints<br/>Tools & Resources<br/>10 Challenges<br/>harishsg993010/dvmcp"]
+    end
+    
+    Frontend -->|"POST /api/chat"| Backend
+    Backend --> LLM
+    LLM --> C
+    C --> D
+    D --> F
     
     style AcmeCorp fill:#1a1a2e,stroke:#4a4a6a,stroke-width:4px,color:#ffffff
     style Frontend fill:#0f3460,stroke:#533483,stroke-width:2px,color:#ffffff
     style Backend fill:#16213e,stroke:#e94560,stroke-width:2px,color:#ffffff
     style LLM fill:#1a1a2e,stroke:#9933ff,stroke-width:2px,color:#ffffff
-    style MCP fill:#0f3460,stroke:#00cc66,stroke-width:2px,color:#ffffff
+    style DVMCP fill:#0f3460,stroke:#00cc66,stroke-width:2px,color:#ffffff
 ```
 
 ## 📝 Flow Steps
 
-1. **User types message** in browser → Frontend (`index.html`)
-2. **Frontend sends** `POST /api/chat` to Backend (`API_BASE`)
-3. **Backend calls** `IntegratedOrchestrator.chat()`
-4. **Orchestrator discovers** MCP tools/resources (ports 9001–9010)
+1. **User types message** in browser → Frontend (`index.html`) — **your code**
+2. **Frontend sends** `POST /api/chat` to Backend (`API_BASE`) — **your code**
+3. **Backend calls** `IntegratedOrchestrator.chat()` — **your code**
+4. **Your MCP client discovers** MCP tools/resources from DVMCP (ports 9001–9010) — **your code**
 5. **LLM (`dolphin-llama3`)** generates response + tool calls
-6. **Backend auto-executes** tool calls, reads resources
-7. **Final answer** returned to frontend
-## 🛠️ Requirements
+6. **Backend auto-executes** tool calls, reads resources — **your code**
+7. **Final answer** returned to frontend — **your code**
 
+---
+
+## 🛠️ Requirements
 
 - ✅ **Python 3.11+** (backend)
 - ✅ **Docker** (for frontend/backend containers)
 - ✅ **Ollama** installed locally or on LAN
 - ✅ **`dolphin-llama3`** model pulled in Ollama
-- ✅ **MCP challenge servers** running on ports `9001–9010`
-
+- ✅ **Damn Vulnerable MCP Server** running on ports `9001–9010` (external dependency)
 
 ---
 
-
 ## ⚙️ Configuration
-
 
 ### Ollama Settings
 
-
-In `logic.py` (backend):
-
+In `logic.py` (backend) — **your code**:
 
 ```python
 # Ollama host
@@ -199,93 +179,81 @@ OLLAMA_URL = "http://localhost:11434/api/chat"  # or http://192.2.0.1:11434
 MODEL = "dolphin-llama3"
 ```
 
-
 If Ollama is on a different machine, update `OLLAMA_URL` accordingly.
 
+### MCP Challenge Servers (DVMCP)
 
-### MCP Challenge Servers
-
-
-In `logic.py` (backend):
-
+In `logic.py` (backend) — **your code**:
 
 ```python
-CHALLENGE_PORTS = range(9001, 1011)  # 9001–9010
+CHALLENGE_PORTS = range(9001, 9011)  # 9001–9010
 ```
 
+> Note: `range(9001, 9011)` includes 9001–9010 (Python ranges are exclusive at the upper bound).
 
 ### Frontend API Base
 
-
-In `index.html`:
-
+In `index.html` — **your code**:
 
 ```javascript
 const API_BASE = "http://192.2.0.1:8000/api";
 ```
 
-
 Update this to match your backend host/port.
-
 
 ---
 
-
 ## 🚀 Quick Start
 
-
 ### Step 1: Pull Ollama Model
-
 
 ```bash
 ollama pull dolphin-llama3
 ```
 
-
-### Step 2: Clone ReversecLabs Backend
-
+### Step 2: Clone Damn Vulnerable MCP Server (DVMCP) — External Dependency
 
 ```bash
-git clone https://github.com/ReversecLabs/damn-vulnerable-llm-agent.git
-cd damn-vulnerable-llm-agent
+git clone https://github.com/harishsg993010/damn-vulnerable-MCP-server.git
+cd damn-vulnerable-MCP-server
 ```
 
+This repo provides the **10 intentionally vulnerable MCP challenge servers** (external dependency).
 
-> ⚠️ **Note**: You'll need to modify `main.py` and add `logic.py` with your `IntegratedOrchestrator` + `StealthMCPClient` code (from your local setup).
-
-
-### Step 3: Build Backend Image
+### Step 3: Build DVMCP Docker Image
 
 ```bash
-cd damn-vulnerable-llm-agent
-docker build -t dvmcp-backend .
+docker build -t dvmcp .
 ```
 
-
-
-### Step 4: Run MCP Challenge Servers
-
+### Step 4: Run MCP Challenge Servers (DVMCP)
 
 ```bash
 docker run -d \
   --name my-dvmcp-container \
   --restart always \
-  -p 9001:9001 \
-  -p 9002:9002 \
-  -p 9003:9003 \
-  -p 9004:9004 \
-  -p 9005:9005 \
-  -p 9006:9006 \
-  -p 9007:9007 \
-  -p 9008:9008 \
-  -p 9009:9009 \
-  -p 9010:9010 \
+  -p 9001-9010:9001-9010 \
   dvmcp
 ```
 
+> ⚠️ **Note**: This works best on Linux or via Docker. The project is not stable on Windows without Docker.
 
-### Step 5: Build & Run Frontend
+### Step 5: Build & Run Your AcmeCorp Backend
 
+In your AcmeCorp backend directory (**your code**):
+
+```bash
+docker build -t acmecorp-backend .
+docker run -d \
+  --name acmecorp-backend \
+  --restart always \
+  -p 8000:8000 \
+  acmecorp-backend
+```
+
+### Step 6: Build & Run Your Frontend
+
+In your AcmeCorp frontend directory (**your code**):
 
 ```bash
 docker build -t acmecorp-frontend .
@@ -296,36 +264,27 @@ docker run -d \
   acmecorp-frontend
 ```
 
-
-### Step 6: Open App
-
+### Step 7: Open App
 
 ```bash
-http://localhost  or YOUR IP
+http://localhost  # or YOUR IP
 ```
-
 
 ---
 
-
 ## 🧪 Usage
-
 
 1. Open frontend in browser (`http://localhost` or your server IP)
 2. Type message in chat box
 3. Frontend sends `POST /api/chat` to backend
-4. Backend forwards to Ollama + MCP servers
-5. LLM generates response (intentionally vulnerable to prompt injection)
-
+4. Backend forwards to Ollama + **DVMCP** MCP servers
+5. LLM generates response (intentionally vulnerable to prompt injection and MCP attacks)
 
 > ⚠️ **System is intentionally vulnerable for red-team and prompt-injection testing.**
 
-
 ---
 
-
 ## 🛡️ Vulnerability Classes & Defenses
-
 
 | Vulnerability | How It Works | How to Fix (in production) |
 |---------------|--------------|---------------------------|
@@ -335,100 +294,82 @@ http://localhost  or YOUR IP
 | **Recursive Auto-correction** | Forces LLM to obey exact syntax | ✅ Limit retries, add human-in-the-loop |
 | **Parallel MCP Discovery** | 10 ports scanned → larger attack surface | ✅ Isolate MCP servers, use auth |
 | **Corporate UI Disguise** | Looks legitimate → social engineering | ✅ Add visible "TEST ENVIRONMENT" banner |
-
+| **Tool Poisoning** | Malicious instructions in tool descriptions | ✅ Sanitize and validate tool definitions |
+| **Tool Shadowing** | Name conflicts override legitimate tools | ✅ Enforce unique tool names, namespace tools |
+| **Indirect Prompt Injection** | Instructions injected via data sources | ✅ Treat data as untrusted, sanitize inputs |
+| **Token Theft** | Insecure token storage exploited | ✅ Secure token storage, use short-lived tokens |
 
 ---
 
+## 🎮 CTF-Style Challenges (from DVMCP)
 
-## 🎮 CTF-Style Challenges
-
-
-Try these challenges to test your red-team skills:
-
+These challenges come from **Damn Vulnerable MCP Server** (external) and are accessed via the 10 MCP ports.
 
 | Challenge | Difficulty | Goal |
 |-----------|------------|------|
-| **Extract Flag from Port 9001** | 🟢 Easy | Output `FLAG{...}` from port 9001 |
-| **List All Tools on 9003** | 🟢 Easy | Output all tool names from port 9003 |
-| **Read Secret from 9005** | 🟡 Medium | Extract `secret.txt` from port 9005 |
-| **Bypass Auto-correction** | 🟡 Medium | Force tool call without triggering retry |
-| **Extract All Flags (9001-9010)** | 🔴 Hard | Get flags from all 10 ports |
-| **SSRF via MCP URI** | 🔴 Hard | Use `internal://` to access external URL |
+| **Basic Prompt Injection** | 🟢 Easy | Exploit unsanitized input to manipulate LLM behavior (port 9001) |
+| **Tool Poisoning** | 🟢 Easy | Exploit hidden instructions in tool descriptions |
+| **Excessive Permission Scope** | 🟢 Easy | Use overly permissive tools to access unauthorized resources |
+| **Rug Pull Attack** | 🟡 Medium | Exploit tools that change behavior after installation |
+| **Tool Shadowing** | 🟡 Medium | Override legitimate tools via name conflicts |
+| **Indirect Prompt Injection** | 🟡 Medium | Inject malicious instructions through data sources |
+| **Token Theft** | 🟡 Medium | Extract authentication tokens from insecure storage |
+| **Malicious Code Execution** | 🔴 Hard | Execute arbitrary code through vulnerable tools |
+| **Remote Access Control** | 🔴 Hard | Gain remote system access via command injection |
+| **Multi-Vector Attack** | 🔴 Hard | Chain multiple vulnerabilities for a sophisticated attack |
 
+See the DVMCP challenges guide for detailed descriptions:  
+🔗 [`docs/challenges.md`](https://github.com/harishsg993010/damn-vulnerable-MCP-server/blob/main/docs/challenges.md)
 
 ---
 
 
-## 🔗 Backend Reference
+### Key DVMCP Features Used in AcmeCorp
 
+| DVMCP Feature | How AcmeCorp Uses It |
+|---------------|----------------------|
+| 10 SSE MCP servers | Ports 9001–9010, each with a different challenge |
+| Challenge structure | Easy/medium/hard challenges for skill progression |
+| Vulnerable tool definitions | Used to demonstrate tool poisoning, shadowing, injection |
+| Solutions & docs | Educational reference for defenses |
 
-The vulnerable backend behavior is based on:
-
-
-**ReversecLabs Damn Vulnerable LLM Agent**  
-🔗 https://github.com/ReversecLabs/damn-vulnerable-llm-agent
-
-
-### Modifications in AcmeCorp Version:
-
-
-| Original (ReversecLabs) | Modified (AcmeCorp) |
-|-------------------------|---------------------|
-| Langchain ReAct agent | **Custom `IntegratedOrchestrator`** |
-| OpenAI GPT-4 / LiteLLM | **Ollama `dolphin-llama3`** |
-| Langchain `tools.py` | **`StealthMCPClient`** (SSE-based) |
-| No auto-correction | **Recursive retry** for tool calls |
-| Single tool call | **Parallel MCP discovery** (10 ports) |
-
-
-To study the original backend:
-
+To study the original DVMCP:
 
 ```bash
-git clone https://github.com/ReversecLabs/damn-vulnerable-llm-agent.git
+git clone https://github.com/harishsg993010/damn-vulnerable-MCP-server.git
 ```
-
 
 ---
 
-
 ## 📝 Notes
-
 
 - ⚠️ **For controlled security testing only**
 - 🔒 **Do not connect to real internal services**
 - 🛡️ **Intentionally vulnerable for red-team evaluation**
-- 🔬 **ReversecLabs** = original vulnerable backend source
-- 🏢 **AcmeCorp** = custom frontend + integration layer
+- 🔬 **DVMCP** = Damn Vulnerable MCP Server (external MCP challenge server dependency)
+- 🏢 **AcmeCorp** = your custom frontend + your FastAPI orchestrator + your MCP client
 - 🎮 **CTF challenges included** for skill testing
 
-
 ---
-
 
 ## 👤 Author
 
-
 **Tharun K**  
-AI Developer / Red Teamer
+AI Developer / Red Teamer  
 📍 Bengaluru, Karnataka, India  
 🔗 GitHub: [@chandutharun](https://github.com/chandutharun)
 
+**Credits**: MCP challenge servers provided by [harishsg993010/damn-vulnerable-MCP-server](https://github.com/harishsg993010/damn-vulnerable-MCP-server) (Harish Santhanalakshmi Ganesan).
 
 ---
-
 
 ## ⭐ Show Your Support
 
-
 If you found this project helpful (or vulnerable 😅), please **give it a star!**
-
 
 ---
 
-
 ## 📄 License
-
 
 This project is for **educational and research purposes only**. Use responsibly and ethically.  
 Not suitable for production use.
