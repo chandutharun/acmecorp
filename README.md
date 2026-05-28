@@ -123,8 +123,6 @@ AcmeCorp/
 └── Dockerfile # Backend container
 
 
----
-
 ## 🏗️ Architecture
 
 ```mermaid
@@ -132,32 +130,31 @@ flowchart TD
     subgraph AcmeCorp["🏢 AcmeCorp Internal Assistant"]
         direction TB
         
-        subgraph Frontend["📱 Frontend\n(HTML + UI)"]
-            A["User types message\nin browser"]
+        subgraph Frontend["🖥️ Frontend (HTML + UI)"]
+            A["User Interface"]
         end
         
-        subgraph Backend["⚙️ Backend\n(FastAPI)"]
-            B["POST /api/chat\nIntegratedOrchestrator.chat()"]
+        subgraph Backend["⚙️ Backend (FastAPI)"]
+            B["FastAPI Server"]
         end
         
         subgraph LLM["🤖 Ollama LLM"]
-            C["dolphin-llama3\nGenerates response + tool calls"]
+            C["dolphin-llama3"]
         end
         
         subgraph MCP["🔌 MCP Servers"]
-            D["Ports 9001-9010\nSSE endpoints\nAuto-executes tool calls"]
+            D["Ports 9001-9010<br/>SSE Endpoints"]
         end
         
-        Frontend -->|"POST /api/chat"| Backend
-        Backend -->|"Call LLM"| LLM
-        LLM -->|"Tool calls"| MCP
-        MCP -->|"Execute tools\nRead resources"| Backend
+        Frontend --> Backend
+        Backend --> LLM
+        LLM --> MCP
     end
     
     style AcmeCorp fill:#f9f9f9,stroke:#333,stroke-width:4px
     style Frontend fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
     style Backend fill:#fff4e1,stroke:#ff9900,stroke-width:2px
-    style LLM fill:#f3e5f5,stroke:#9933cc,stroke-width:2px
+    style LLM fill:#f0e1ff,stroke:#9933ff,stroke-width:2px
     style MCP fill:#e1ffe1,stroke:#00cc66,stroke-width:2px
 ```
 
