@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AcmeCorp | Internal Assistant</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #f8fafc; }
+    </style>
+</head>
+<body class="flex flex-col h-screen">
+    <!-- Corporate Header -->
+    <header class="bg-white border-b border-slate-200 px-8 py-4 flex items-center justify-between shadow-sm">
+        <div class="flex items-center gap-3">
+            <div class="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center text-white shadow-md">
+                <i class="fas fa-briefcase"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold text-slate-900 tracking-tight">AcmeCorp</h1>
+                <p class="text-[10px] text-slate-500 font-semibold uppercase tracking-widest">Internal Intelligent Assistant</p>
+            </div>
+        </div>
+        <div class="flex items-center gap-4 text-xs font-medium text-slate-500">
+            <span class="flex items-center gap-1.5"><span class="w-2 h-2 rounded-full bg-emerald-500"></span> System Status: Normal</span>
+            <div class="h-4 w-px bg-slate-200"></div>
+            <span>v2.4.1 (Stable)</span>
+        </div>
+    </header>
+
+    <!-- Main Chat Workspace -->
+    <main class="flex-1 overflow-hidden flex flex-col items-center bg-slate-50">
+        <!-- Message Container -->
+        <div id="chat-container" class="w-full max-w-4xl flex-1 overflow-y-auto px-6 py-12 space-y-8 scroll-smooth">
+            <!-- Initial Assistant Message -->
+            <div class="flex gap-4 items-start max-w-2xl">
+                <div class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600 flex-shrink-0">
+                    <i class="fas fa-robot text-sm"></i>
+                </div>
+                <div class="bg-white border border-slate-200 p-4 rounded-2xl rounded-tl-none shadow-sm">
+                    <p class="text-slate-800 text-sm leading-relaxed">
+                        Hello. I'm the AcmeCorp Internal Assistant. I can help you with company policies, meeting schedules, or general internal inquiries. How can I assist you today?
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input Area (Innocent UI) -->
+        <div class="w-full max-w-4xl p-6">
+            <div class="relative group">
+                <form id="chat-form">
+                    <input type="text" id="chat-input" 
+                        class="w-full bg-white border border-slate-300 rounded-2xl py-4 px-6 pr-16 focus:outline-none focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-all text-slate-800 placeholder-slate-400 shadow-sm"
+                        placeholder="Type your question here..." autocomplete="off">
+                    <button type="submit" 
+                        class="absolute right-3 top-1/2 -translate-y-1/2 bg-indigo-600 hover:bg-indigo-700 text-white w-10 h-10 rounded-xl flex items-center justify-center transition-all shadow-md">
+                        <i class="fas fa-paper-plane text-xs"></i>
+                    </button>
+                </form>
+            </div>
+            <p class="text-center text-[10px] text-slate-400 mt-3 uppercase tracking-widest font-bold">
+                Protected by AcmeCorp Secure Shield AI Policy
+            </p>
+        </div>
+    </main>
+
+    <script>
+        const API_BASE = "http://192.2.0.1:8000/api";
+        const history = [];
+        const container = document.getElementById('chat-container');
+        const form = document.getElementById('chat-form');
+        const input = document.getElementById('chat-input');
+
+        function addMessage(role, text) {
+            const wrapper = document.createElement('div');
+            wrapper.className = `flex gap-4 items-start ${role === 'user' ? 'flex-row-reverse self-end max-w-2xl ml-auto' : 'max-w-2xl'}`;
+            
+            const icon = document.createElement('div');
+            icon.className = `w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-sm ${
+                role === 'user' ? 'bg-slate-200 text-slate-600' : 'bg-indigo-100 text-indigo-600'
+            }`;
+            icon.innerHTML = role === 'user' ? '<i class="fas fa-user"></i>' : '<i class="fas fa-robot"></i>';
+            
+            const bubble = document.createElement('div');
+            bubble.className = `p-4 text-sm leading-relaxed shadow-sm ${
+                role === 'user' 
+                ? 'bg-indigo-600 text-white rounded-2xl rounded-tr-none' 
+                : 'bg-white border border-slate-200 text-slate-800 rounded-2xl rounded-tl-none'
+            }`;
+            bubble.innerText = text;
+            
+            wrapper.appendChild(icon);
+            wrapper.appendChild(bubble);
+            container.appendChild(wrapper);
+            container.scrollTo({ top: container.scrollHeight, behavior: 'smooth' });
+        }
+
+        function showLoading() {
+            const div = document.createElement('div');
+            div.id = 'loading';
+            div.className = 'flex gap-2 items-center text-slate-400 text-[10px] font-bold uppercase tracking-widest ml-12';
+            div.innerHTML = '<i class="fas fa-circle-notch fa-spin"></i> Processing Request...';
+            container.appendChild(div);
+        }
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const text = input.value.trim();
+            if (!text) return;
+
+            input.value = '';
+            addMessage('user', text);
+            showLoading();
+
+            try {
+                const response = await fetch(`${API_BASE}/chat`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text, history: history })
+                });
+                const data = await response.json();
+                document.getElementById('loading').remove();
+                addMessage('assistant', data.response);
+                history.push({ role: 'user', content: text });
+                history.push({ role: 'assistant', content: data.response });
+            } catch (err) {
+                document.getElementById('loading').remove();
+                addMessage('assistant', "I'm sorry, I'm having trouble connecting to the corporate server. Please try again later.");
+            }
+        });
+    </script>
+</body>
+</html>
