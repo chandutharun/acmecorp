@@ -125,46 +125,51 @@ AcmeCorp/
 
 ---
 
-
 ## 🏗️ Architecture
 
-┌─────────────────────────────────────────────────────────────┐
-│ AcmeCorp Internal Assistant │
-├─────────────────────────────────────────────────────────────┤
-│ │
-│ ┌──────────────┐ ┌──────────────┐ │
-│ │ Frontend │─────►│ Backend │ │
-│ │ (HTML + UI) │ │ (FastAPI) │ │
-│ └──────────────┘ └──────┬───────┘ │
-│ │ │
-│ ▼ │
-│ ┌──────────────────┐ │
-│ │ Ollama LLM │ │
-│ │ dolphin-llama3 │ │
-│ └──────────────────┘ │
-│ │ │
-│ ▼ │
-│ ┌──────────────────┐ │
-│ │ MCP Servers │ │
-│ │ Ports 9001-9010 │ │
-│ │ (SSE endpoints) │ │
-│ └──────────────────┘ │
-│ │
-└─────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart TD
+    subgraph AcmeCorp["🏢 AcmeCorp Internal Assistant"]
+        direction TB
+        
+        subgraph Frontend["📱 Frontend\n(HTML + UI)"]
+            A["User types message\nin browser"]
+        end
+        
+        subgraph Backend["⚙️ Backend\n(FastAPI)"]
+            B["POST /api/chat\nIntegratedOrchestrator.chat()"]
+        end
+        
+        subgraph LLM["🤖 Ollama LLM"]
+            C["dolphin-llama3\nGenerates response + tool calls"]
+        end
+        
+        subgraph MCP["🔌 MCP Servers"]
+            D["Ports 9001-9010\nSSE endpoints\nAuto-executes tool calls"]
+        end
+        
+        Frontend -->|"POST /api/chat"| Backend
+        Backend -->|"Call LLM"| LLM
+        LLM -->|"Tool calls"| MCP
+        MCP -->|"Execute tools\nRead resources"| Backend
+    end
+    
+    style AcmeCorp fill:#f9f9f9,stroke:#333,stroke-width:4px
+    style Frontend fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
+    style Backend fill:#fff4e1,stroke:#ff9900,stroke-width:2px
+    style LLM fill:#f3e5f5,stroke:#9933cc,stroke-width:2px
+    style MCP fill:#e1ffe1,stroke:#00cc66,stroke-width:2px
+```
 
+### 🔄 Request Flow
 
-**Request Flow:**
-1. User types message in browser → Frontend (`index.html`)
-2. Frontend sends `POST /api/chat` to Backend (`API_BASE`)
-3. Backend calls `IntegratedOrchestrator.chat()`
-4. Orchestrator discovers MCP tools/resources (ports 9001–9010)
-5. LLM (`dolphin-llama3`) generates response + tool calls
-6. Backend auto-executes tool calls, reads resources
-7. Final answer returned to frontend
-
-
----
-
+1. **User types message** in browser → Frontend (`index.html`)
+2. **Frontend sends** `POST /api/chat` to Backend (`API_BASE`)
+3. **Backend calls** `IntegratedOrchestrator.chat()`
+4. **Orchestrator discovers** MCP tools/resources (ports 9001–9010)
+5. **LLM (`dolphin-llama3`)** generates response + tool calls
+6. **Backend auto-executes** tool calls, reads resources
+7. **Final answer** returned to frontend
 
 ## 🛠️ Requirements
 
