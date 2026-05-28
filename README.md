@@ -153,11 +153,11 @@ flowchart TD
         C --> E
     end
     
-    style AcmeCorp fill:#f9f9f9,stroke:#333,stroke-width:4px
-    style Frontend fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
-    style Backend fill:#fff4e1,stroke:#ff9900,stroke-width:2px
-    style LLM fill:#f0e1ff,stroke:#9933ff,stroke-width:2px
-    style MCP fill:#e1ffe1,stroke:#00cc66,stroke-width:2px
+    style AcmeCorp fill:#1a1a2e,stroke:#4a4a6a,stroke-width:4px,color:#ffffff
+    style Frontend fill:#0f3460,stroke:#533483,stroke-width:2px,color:#ffffff
+    style Backend fill:#16213e,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style LLM fill:#1a1a2e,stroke:#9933ff,stroke-width:2px,color:#ffffff
+    style MCP fill:#0f3460,stroke:#00cc66,stroke-width:2px,color:#ffffff
 ```
 
 ## 🔄 Request Flow
@@ -183,12 +183,12 @@ sequenceDiagram
     B-->>F: Return response
     F-->>U: Display answer
     
-    style U fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
-    style F fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
-    style B fill:#fff4e1,stroke:#ff9900,stroke-width:2px
-    style O fill:#fff4e1,stroke:#ff9900,stroke-width:2px
-    style L fill:#f0e1ff,stroke:#9933ff,stroke-width:2px
-    style M fill:#e1ffe1,stroke:#00cc66,stroke-width:2px
+    style U fill:#0f3460,stroke:#533483,stroke-width:2px,color:#ffffff
+    style F fill:#0f3460,stroke:#533483,stroke-width:2px,color:#ffffff
+    style B fill:#16213e,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style O fill:#16213e,stroke:#e94560,stroke-width:2px,color:#ffffff
+    style L fill:#1a1a2e,stroke:#9933ff,stroke-width:2px,color:#ffffff
+    style M fill:#0f3460,stroke:#00cc66,stroke-width:2px,color:#ffffff
 ```
 
 ## 📝 Flow Steps
@@ -200,7 +200,6 @@ sequenceDiagram
 5. **LLM (`dolphin-llama3`)** generates response + tool calls
 6. **Backend auto-executes** tool calls, reads resources
 7. **Final answer** returned to frontend
-
 ## 🛠️ Requirements
 
 
