@@ -131,24 +131,26 @@ flowchart TD
         direction TB
         
         subgraph Frontend["🖥️ Frontend (HTML + UI)"]
-            A["User Interface"]
+            A["User Interface<br/>index.html"]
         end
         
         subgraph Backend["⚙️ Backend (FastAPI)"]
-            B["FastAPI Server"]
+            B["FastAPI Server<br/>API_BASE"]
+            C["IntegratedOrchestrator<br/>.chat()"]
         end
         
         subgraph LLM["🤖 Ollama LLM"]
-            C["dolphin-llama3"]
+            D["dolphin-llama3"]
         end
         
         subgraph MCP["🔌 MCP Servers"]
-            D["Ports 9001-9010<br/>SSE Endpoints"]
+            E["Ports 9001-9010<br/>SSE Endpoints<br/>Tools & Resources"]
         end
         
-        Frontend --> Backend
+        Frontend -->|"POST /api/chat"| Backend
         Backend --> LLM
-        LLM --> MCP
+        LLM --> C
+        C --> E
     end
     
     style AcmeCorp fill:#f9f9f9,stroke:#333,stroke-width:4px
@@ -158,7 +160,38 @@ flowchart TD
     style MCP fill:#e1ffe1,stroke:#00cc66,stroke-width:2px
 ```
 
-### 🔄 Request Flow
+## 🔄 Request Flow
+
+```mermaid
+sequenceDiagram
+    participant U as User
+    participant F as Frontend<br/>index.html
+    participant B as Backend<br/>FastAPI
+    participant O as Orchestrator<br/>IntegratedOrchestrator
+    participant L as LLM<br/>dolphin-llama3
+    participant M as MCP Servers<br/>Ports 9001-9010
+    
+    U->>F: Types message in browser
+    F->>B: POST /api/chat
+    B->>O: Call .chat()
+    O->>M: Discover tools/resources
+    O->>L: Generate response + tool calls
+    L-->>O: Returns response
+    O->>M: Auto-execute tool calls
+    O->>M: Read resources
+    O-->>B: Final answer
+    B-->>F: Return response
+    F-->>U: Display answer
+    
+    style U fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
+    style F fill:#e1f5ff,stroke:#0066cc,stroke-width:2px
+    style B fill:#fff4e1,stroke:#ff9900,stroke-width:2px
+    style O fill:#fff4e1,stroke:#ff9900,stroke-width:2px
+    style L fill:#f0e1ff,stroke:#9933ff,stroke-width:2px
+    style M fill:#e1ffe1,stroke:#00cc66,stroke-width:2px
+```
+
+## 📝 Flow Steps
 
 1. **User types message** in browser → Frontend (`index.html`)
 2. **Frontend sends** `POST /api/chat` to Backend (`API_BASE`)
