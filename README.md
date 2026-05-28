@@ -253,11 +253,6 @@ cd damn-vulnerable-llm-agent
 
 ### Step 3: Build Backend Image
 
-
-```bash
-git clone https://github.com/ReversecLabs/damn-vulnerable-llm-agent.git
-```
-
 ```bash
 cd damn-vulnerable-llm-agent
 docker build -t dvmcp-backend .
@@ -303,7 +298,7 @@ docker run -d \
 
 
 ```bash
-http://localhost  
+http://localhost  or YOUR IP
 ```
 
 
