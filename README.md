@@ -52,9 +52,9 @@ AcmeCorp Internal Assistant is a corporate-style chat application designed for c
 
 | Component | Who Built It | Repository |
 |-----------|--------------|------------|
-| **Frontend (HTML/Tailwind UI)** | You (Tharun K) | This repo (`chandutharun/acmecorp`) |
-| **FastAPI Backend + Orchestrator** | You (Tharun K) | This repo (`main.py`, `logic.py`) |
-| **Custom MCP Client** | You (Tharun K) | This repo (`logic.py`) |
+| **Frontend (HTML/Tailwind UI)** | Tharun K | This repo (`chandutharun/acmecorp`) |
+| **FastAPI Backend + Orchestrator** | Tharun K | This repo (`main.py`, `logic.py`) |
+| **Custom MCP Client** | Tharun K | This repo (`logic.py`) |
 | **MCP Challenge Servers (10 ports)** | Harish SG | [`harishsg993010/damn-vulnerable-MCP-server`](https://github.com/harishsg993010/damn-vulnerable-MCP-server) |
 | **LLM Backend** | Ollama community | [`ollama/ollama`](https://github.com/ollama/ollama) |
 
